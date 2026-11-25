@@ -1,1 +1,165 @@
 
+NVARCHAR2
+=============
+
+1. IT IS SIMILAR TO VARCHAR2 BUT IT IS USEFUL WHEN
+   WE WANT TO STORE NATIONAL CHARACTER DATA SET.
+   
+   CREATE TABLE CHINA (NAME NVARCHAR2(10) )
+
+INSERT INTO CHINA VALUES ('SUNIL');
+INSERT INTO CHINA VALUES (100);
+
+NUMBER /INTEGER  DATA TYPE
+===========================
+1. WHEN WE WANT TO STORE ONLY NUMERICAL DATA THAT TIME WE CAN USE NUMBER DATA TYPE.
+2. WE CAN STORE UPTO 38 DIGIT.
+3. IT STORES VALUE IN PRECISION AND SCALE.
+  MEANS BEFORE DECIMAL IS PRECISION AND AFTER DECIMAL IS SCALE
+123.56
+4.  If the scale is out of the specified value and nearest next number 
+is 5 or greater than 5 then it rounded up to nearest highest value.
+
+CREATE TABLE BANK (ACCNO NUMBER(10) , NAME VARCHAR2(10), 
+                                    AMOUNT NUMBER(7,3), AADHAR_NO NUMBER);
+
+INSERT INTO BANK VALUES (12345, 'RAM' , 5985.23, 789456123456) ;                             
+
+SELECT * from bank;
+
+INSERT INTO BANK VALUES (12346, 'shyam' , 6225.467, 789456123456) ;      
+INSERT INTO BANK VALUES (12347, 'AKSHAY' , 6545.4678, 789456123456) ;     
+INSERT INTO BANK VALUES (12347, 'SAMBHU' , 7589.4628, 789456123456) ;      
+INSERT INTO BANK VALUES (12348, 'SHIVA' , 7577.4621, 789456123456) ;      
+INSERT INTO BANK VALUES (12348, 'SHIVA' , 9999.567, 789456123456) ;      
+INSERT INTO BANK VALUES (12348, 'SHIVA' , 999.999, 789456123456) ;      
+INSERT INTO BANK VALUES (12348, 'SHIVA' , 12345.2569, 789456123456) ;      
+--value larger than specified precision allowed for this column
+
+INSERT INTO BANK VALUES (12348, 'SHIVA' , 7577.462726, 789456123456) ;      
+
+SELECT * from bank;
+
+LONG Data type
+----------------------
+.This data type is used to store alphanumeric  and special character values.
+.Maximum size limit is 2 GB.
+.only one long column  is valid in one table.
+
+CREATE TABLE PATIENT (NAME VARCHAR2(10), GENDER CHAR, MOBILE_NO NUMBER, 
+                                          CLINICAL_HISTORY LONG );
+
+INSERT INTO PATIENT VALUES ('RAM' , 'M', 12345679456, 'PATIENT HAS GENETICAL DISORDER ');
+
+SELECT * FROM PATIENT;
+
+DATE :-
+=========
+1.WHEN WE WANT TO STORE DATE DATA  IN A COLUMN THEN WE CAN CHOOSE DATE DATA TYPE.
+2. THE DEFAULT DATE FORMAT DD-MON-YY
+3. The date range provide by Oracle is JANUARY 1, 4712 BC  to  DECEMBER 31, 9999 AD
+4. The default time accepted by ORACLE date is 
+
+CREATE TABLE STUDENT (ROLLNO NUMBER, NAME VARCHAR2(10), DOB DATE);
+
+INSERT INTO STUDENT VALUES (1, 'AKASH' , '01-JAN-2022');
+INSERT INTO STUDENT VALUES (2, 'SHIVA' , '01-03-2024');--ERROR
+INSERT INTO STUDENT VALUES (2, 'SHIVA' , 'DEC-03-2024');--ERROR
+
+
+SELECT * FROM STUDENT;
+
+TIMESTAMP DATA TYPE :-
+======================
+1. TIME STAMP DATA TYPE IS SIMILAR TO DATE DATA TYPE , BUT IT 
+STORES DATE WITH TIME.
+2. HOUR MUST BE 1 TO 12 AND DEFAULT IS am.
+
+
+DROP TABLE STUDENT;
+
+CREATE TABLE STUDENT (ROLLNO NUMBER, NAME VARCHAR2(10), DOB DATE, DOA TIMESTAMP);
+INSERT INTO STUDENT VALUES (1, 'AKASH' , '01-JAN-2022' , '01-OCT-2026 10:30');
+
+INSERT INTO STUDENT VALUES (2, 'SOURABH' , '01-JAN-2023' , '01-OCT-2026 10:30 PM ');
+
+
+SELECT * FROM STUDENT;
+
+
+RAW
+=====
+1. WHEN WE WANT TO STORE DATA LIKE IMAGE, VIDEO, AUDIO , THUMB IMPRESSION
+THAT TIME WE CAN CHOOSE RAW.
+
+2. IT CAN STORE UPTO 2000 BYTES
+
+3. length is mandatory
+
+CREATE TABLE AADHAR_CARD (NAME VARCHAR2(10), PHOTO RAW(100));
+
+INSERT INTO AADHAR_CARD VALUES ('RAM' , '10210');
+
+SELECT * from AADHAR_CARD;
+
+LONG  RAW
+---------------
+-> It stores the binary data similar to RAW but can store more bytes than RAW.
+-> Maximum length is 2GB.
+-> NO length is required.
+
+drop table aadhar_card;
+
+CREATE TABLE AADHAR_CARD (NAME VARCHAR2(10), PHOTO RAW(100), 
+                                                      THUMB_IMPRESSION LONG RAW);
+
+
+INSERT INTO AADHAR_CARD VALUES ('RAM' , '10210', '230120');
+
+LOB DATA TYPES:- (LARGE OBJECT DATA TYPE )
+=========================================
+1.BLOB   2. CLOB   3. NCLOB
+
+1.BLOB (BINARY LARGE OBJECT) :-
+==============================
+1. It stored unstructured  DATA.
+2. it stores  huge number of data like such as voice or mixed media, VDO
+The maximum siz is 2 GB.
+The Processing speed is good in BLOB.
+
+
+CLOB  (CHARACTER LARGE OBJECT ):-
+===============================
+1. It is the Extended version of character data type.
+2.The maximum size is 4 GB
+3. IT IS FULL OF TRANSACTIONAL SUPPORT
+
+
+CREATE TABLE PANCARD (PANNO NUMBER, NAME VARCHAR2(10) , 
+                                            IMAGE BLOB, 
+                                            SUMMARY CLOB);
+
+INSERT INTO PANCARD VALUES (12346, 'RAM' , '10101' , 'PANCARD HISTORY DETAILS');
+
+SELECT * FROM PANCARD;
+
+PROJECT- CHAR, VARCHAR2, NUMBER, DATE,TIMESTAMP, BLOB, CLOB.
+
+
+SELECT * FROM STUDENT;
+
+INSERT INTO STUDENT  VALUES (2, 'SOURABH' , '01-JAN-2023' );
+
+--00947. 00000 -  "not enough values"
+
+INSERT INTO STUDENT (ROLLNO, NAME, DOB) VALUES (2, 'SOURABH' , '01-JAN-2023' );
+
+INSERT INTO STUDENT  VALUES (2, 'SOURABH' , '01-JAN-2023' ,'01-JAN-2024','M');
+--SQL Error: ORA-00913: too many values
+
+SELECT * FROM STUDENT;
+
+
+INSERT INTO STUDENT VALUES (3, 'SMITH' , NULL, NULL );
+
+SELECT * FROM STUDENT
